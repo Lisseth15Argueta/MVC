@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MVC.Models
 {
-    public class Alumno
+    public class Alumnos : BaseModel
     {
         #region Propiedades
         [Key]
@@ -12,21 +12,22 @@ namespace MVC.Models
         [NotNull]
         public string Nombres { get; set; }
         [NotNull]
+        public string Apellidos { get; set; }
+        [NotNull]
         public int Edad { get; set; }
         [NotNull]
         public string Carnet { get; set; }
         public int CantidadMaterias { get; set; }
         public int Ciclo { get; set; }
-        public string Apellidos { get; set; }
         public DateTime FechaNacimiento { get; set; }
         [NotMapped]
         public string NombreCompleto { get; set; }
         #endregion Propiedades
 
         #region Constructor
-        public Alumno(string nombres, int edad, string apellidos, DateTime fechaNacimiento)
+        public Alumnos(string nombres, int edad, string apellidos, DateTime fechaNacimiento)
         {
-            NombreCompleto = nombres;
+            Nombres = nombres;
             Edad = edad;
             Apellidos = apellidos;
             FechaNacimiento = fechaNacimiento;
@@ -35,8 +36,6 @@ namespace MVC.Models
         #endregion Constructor
 
         #region Funciones
-
-
         public bool EsMayordeEdad()
         {
             return Edad > 18;

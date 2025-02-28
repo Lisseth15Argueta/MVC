@@ -9,7 +9,7 @@ namespace MVC.Db
         {
         }
 
-        public DbSet<Alumno> Alumnos { get; set; }
+        public DbSet<Alumnos> Alumnos { get; set; }
     }
 }
 

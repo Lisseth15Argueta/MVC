@@ -8,18 +8,15 @@ namespace MVC.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly AppDbContext appDbContext;
 
-    public HomeController(ILogger<HomeController> logger,AppDbContext _dbContext)
+    public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-        appDbContext = _dbContext;
     }
 
     public IActionResult Index()
     {
-        var alumnos = appDbContext.Alumnos.ToList();
-        return View(alumnos);
+        return View();
     }
 
     public IActionResult Privacy()
