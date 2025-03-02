@@ -17,22 +17,56 @@ namespace MVC.Controllers
             return View(alumnos);
         }
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult UpSert(int id)
         {
-            Alumnos alumno = new();
-            return View(alumno);
+            if (id == 0)
+            {
+                //Registro nuevo
+                Alumnos alumno = new();
+                return View(alumno);
+            }
+            else
+            {
+                //Registro existente
+                Alumnos alumnos = _dbConn.Alumnos.FirstOrDefault(row => row.AlumnoId == id) ?? new();
+                return View(alumnos);
+            }
+            
         }
         [HttpPost]
-        public IActionResult Create(Alumnos model)
+        public IActionResult UpSert(Alumnos model)
         {
             ModelState.Remove("NombreCompleto");
-            if (ModelState.IsValid)
+            if(model.AlumnoId == 0)
             {
-                _dbConn.Alumnos.Add(model);
-                _dbConn.SaveChanges();
-                return RedirectToAction("index");
+                if (ModelState.IsValid)
+                {
+                    _dbConn.Alumnos.Add(model);
+                    _dbConn.SaveChanges();
+                    return RedirectToAction("index");
+                }
             }
-            return RedirectToAction("Index");
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    _dbConn.Alumnos.Update(model);
+                    _dbConn.SaveChanges();
+                    return RedirectToAction("index");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            Alumnos alumno = _dbConn.Alumnos.FirstOrDefault(row => row.AlumnoId == id) ?? new();
+            alumno.IsActive = false;
+            _dbConn.Alumnos.Remove(alumno);
+            /*_dbConn.Alumnos.Update(alumno);*/
+            _dbConn.SaveChanges();
+            return RedirectToAction("index");
         }
     }
 }
